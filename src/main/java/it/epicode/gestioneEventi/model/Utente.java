@@ -26,8 +26,9 @@ public class Utente implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
-    @OneToMany(mappedBy = "utente")
-    private List<Prenotazione> prenotazioni;
+    @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private Evento evento;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

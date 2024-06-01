@@ -3,8 +3,11 @@ package it.epicode.gestioneEventi.service;
 import it.epicode.gestioneEventi.dto.UtenteDto;
 import it.epicode.gestioneEventi.enums.Ruolo;
 import it.epicode.gestioneEventi.exception.BadRequestException;
+import it.epicode.gestioneEventi.exception.EventoNotFoundException;
 import it.epicode.gestioneEventi.exception.UtenteNotFoundException;
+import it.epicode.gestioneEventi.model.Evento;
 import it.epicode.gestioneEventi.model.Utente;
+import it.epicode.gestioneEventi.repository.EventoRepository;
 import it.epicode.gestioneEventi.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +21,9 @@ public class UtenteService {
 
     @Autowired
     private UtenteRepository utenteRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,8 +40,18 @@ public class UtenteService {
             utente.setPassword(utenteDto.getPassword());
             utente.setRuolo(Ruolo.UTENTE);
 
-            utenteRepository.save(utente);
-            return "Utente con id = " + utente.getId() + " salvato correttamente";
+            Optional<Evento> eventoOptional = eventoRepository.findById(utenteDto.getEventoId());
+
+            if (eventoOptional.isPresent()){
+                Evento evento = eventoOptional.get();
+                utente.setEvento(evento);
+
+                utenteRepository.save(utente);
+                return "Utente con id = " + utente.getId() + " salvato correttamente";
+            }
+            else {
+                throw new EventoNotFoundException("Evento con id = " + utenteDto.getEventoId() + " non trovato");
+            }
         }
         else {
             throw new BadRequestException("L'email inserita è già presente");
@@ -76,12 +92,21 @@ public class UtenteService {
             utente.setPassword(passwordEncoder.encode(utenteDto.getPassword()));
             utente.setRuolo(utenteDto.getRuolo());
 
-            utenteRepository.save(utente);
+            Optional<Evento> eventoOptional = eventoRepository.findById(utenteDto.getEventoId());
 
-            return utente;
+            if (eventoOptional.isPresent()){
+                Evento evento = eventoOptional.get();
+                utente.setEvento(evento);
+
+                utenteRepository.save(utente);
+                return utente;
+            }
+            else {
+                throw new EventoNotFoundException("Evento con id = " + utenteDto.getEventoId() + " non trovato");
+            }
         }
         else {
-            throw new UtenteNotFoundException("Utente con id = " + id + " non trovato");
+            throw new BadRequestException("L'email inserita è già presente");
         }
     }
 

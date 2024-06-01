@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,6 +24,9 @@ public class Evento {
 
     @Column(name = "posti_disponibili")
     private int postiDisponibili;
+
+    @OneToMany
+    private List<Utente> partecipanti;
 
     @ManyToOne
     @JoinColumn(name = "utente_id")
