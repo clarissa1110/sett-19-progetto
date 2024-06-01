@@ -1,9 +1,6 @@
 package it.epicode.gestioneEventi.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -26,5 +23,10 @@ public class Evento {
 
     @Column(name = "posti_disponibili")
     private int postiDisponibili;
+
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente organizzatore;
+
 
 }

@@ -22,4 +22,7 @@ public class EventoDto {
 
     @NotBlank(message = "il campo posti disponibili non può essere vuoto")
     private int postiDisponibili;
+
+    @NotBlank(message = "il campo id organizzatore non può essere vuoto")
+    private int organizzatoreId;
 }
