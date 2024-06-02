@@ -70,7 +70,7 @@ public class PrenotazioneController {
         return prenotazioneService.deletePrenotazione(id);
     }
 
-    @GetMapping("api/bookings")
+    @GetMapping("api/bookings/users/{id}")
     @PreAuthorize("hasAnyAuthority('ORGANIZZATORE', 'UTENTE')")
     public List<Prenotazione> getPrenotazioniByIdUtente(@PathVariable int id){
         return prenotazioneService.getPrenotazioniByIdUtente(id);
