@@ -61,7 +61,7 @@ public class PrenotazioneService {
         }
     }
 
-    public List<Prenotazione> getPretonationi(){
+    public List<Prenotazione> getPretonazioni(){
         return prenotazioneRepository.findAll();
     }
 

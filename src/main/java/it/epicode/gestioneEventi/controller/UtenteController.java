@@ -21,13 +21,13 @@ public class UtenteController {
     @Autowired
     private UtenteService utenteService;
 
-    @GetMapping("/api/utenti")
+    @GetMapping("/api/users")
     @PreAuthorize("hasAnyAuthority('ORGANIZZATORE', 'UTENTE')")
     public List<Utente> getUtenti(){
         return utenteService.getUtenti();
     }
 
-    @GetMapping("/api/utenti/{id}")
+    @GetMapping("/api/users/{id}")
     @PreAuthorize("hasAnyAuthority('ORGANIZZATORE', 'UTENTE')")
     public Utente getUtenteByUsername(@PathVariable int id){
         Optional<Utente> utenteOptional = utenteService.getUtenteById(id);
@@ -41,7 +41,7 @@ public class UtenteController {
     }
 
 
-    @PutMapping("/api/utenti/{id}")
+    @PutMapping("/api/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ORGANIZZATORE')")
     public Utente updateUtente(@PathVariable int id, @RequestBody @Validated UtenteDto utenteDto, BindingResult bindingResult){
@@ -55,7 +55,7 @@ public class UtenteController {
     }
 
 
-    @DeleteMapping("/api/utenti/{id}")
+    @DeleteMapping("/api/users/{id}")
     @PreAuthorize("hasAuthority('ORGANIZZATORE')")
     public String deleteUtente(@PathVariable int id){
 
